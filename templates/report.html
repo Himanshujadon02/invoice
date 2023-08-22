@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4 text-Dark">Service Report</h2>
+                    <a href="{% url 'generate-pdf-report' %}" class="btn btn-primary">Generate PDF</a>
+
+                    <!-- Add any filter options or search fields here if needed -->
+                    
+                    <table class="table" id="reportTable">
+                        <thead>
+                            <tr>
+                                <th>Client</th>
+                                <th>Description</th>
+                                <th>Quantity</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for service in services %}
+                            <tr>
+                                <td>{{ service.client }}</td>
+                                <td>{{ service.description }}</td>
+                                <td>{{ service.quantity }}</td>
+                                <td>{{ service.amount }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#reportTable').DataTable({
+            scrollY: '300px',
+            scrollCollapse: true,
+            paging: false
+        });
+    });
+</script>
+
+{% endblock %}

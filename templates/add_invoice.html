@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>Add Invoice</title>
+
+</head>
+
+<body>
+    <h1>Add Invoice</h1>
+
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-body">
+
+                        <h2 class="card-title text-center mb-4 text-Dark">Add-Invoice</h2>
+
+                        {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ clientFm.as_p }}
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body d-flex justify-content-end">
+                    <a href="{% url 'add-services' %}" class="btn btn-primary">Go To Next</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</body>
+
+</html>
+{% endblock %}

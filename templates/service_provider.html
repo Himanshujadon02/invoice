@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Provider Form</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Load jQuery first -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.7/js/jquery.dataTables.js"></script>
+
+</head>
+
+<body>
+
+    <h1>Service Provider Form</h1>
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4 text-Dark">Add-Service-Provider</h2>
+
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <!-- Display the bill-type report -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.7/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.11.7/js/jquery.dataTables.js"></script>
+
+
+    <!-- Display the bill-type report -->
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4 text-Dark"> Report</h2>
+                        <a href="{% url 'generate-pdf' %}" class="btn btn-primary">Generate PDF</a>
+
+                        <table class="table" id="billReportTable">
+                            <thead>
+                                <tr>
+                                    <th>Company Name</th>
+                                    <th>Handle By</th>
+                                    <th>Phone</th>
+                                    <th>Client</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for company in companies %}
+                                <tr>
+                                    <td>
+                                        <input type="text" class="edit-field" value="{{ company.company_name }}"
+                                            disabled>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="edit-field" value="{{ company.handle_by }}" disabled>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="edit-field" value="{{ company.phone }}" disabled>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="edit-field" value="{{ company.client }}" disabled>
+                                    </td>
+                                    <td>
+                                        <button class="edit-btn">Edit</button>
+                                        <button class="save-btn">Save</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.7/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.11.7/js/jquery.dataTables.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#billReportTable').DataTable({
+                scrollY: '300px', // Set the desired height for scrollable content
+                scrollCollapse: true,
+                paging: false
+            });
+
+            // Handle Edit and Save interactions
+            $('.edit-btn').click(function () {
+                var row = $(this).closest('tr');
+                row.find('.edit-field').prop('disabled', false);
+                row.find('.save-btn').prop('disabled', false);
+                $(this).prop('disabled', true);
+            });
+
+            $('.save-btn').click(function () {
+                var row = $(this).closest('tr');
+                row.find('.edit-field').prop('disabled', true);
+                $(this).prop('disabled', true);
+                row.find('.edit-btn').prop('disabled', false);
+
+                // You can add code here to send the edited data to the server and save it
+            });
+        });
+    </script>
+</body>
+
+</html>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block body %}
+<!-- Your existing content here -->
+
+                    
+                    <!-- Display the client report -->
+                    <div class="container my-5">
+                        <div class="row justify-content-center">
+                            <div class="col-md-12">
+                                <div class="card shadow">
+                                    <div class="card-body">
+                                        <h2 class="card-title text-center mb-4 text-Dark">Client Report</h2>
+                                        <a href="{% url 'generate-pdf-review' %}" class="btn btn-primary">Generate PDF</a>
+
+                                        <table class="table" id="clientReportTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Company Name</th>
+                                                    <th>GST Number</th>
+                                                    <th>Country</th>
+                                                    <th>State</th>
+                                                    <th>Address</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for client in clients %}
+                                                <tr>
+                                                    <td>{{ client.company_name }}</td>
+                                                    <td>{{ client.gst_number }}</td>
+                                                    <td>{{ client.country }}</td>
+                                                    <td>{{ client.state }}</td>
+                                                    <td>{{ client.address }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <script>
+                        $(document).ready(function () {
+                            $('#clientReportTable').DataTable({
+                                scrollY: '300px',
+                                scrollCollapse: true,
+                                paging: false
+                            });
+                        });
+                    </script>
+                    
+                    {% endblock %}
+                    
